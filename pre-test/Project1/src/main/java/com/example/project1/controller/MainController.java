@@ -1,6 +1,7 @@
 package com.example.project1.controller;
 
 import com.example.project1.dto.User;
+import com.example.project1.exception.InvalidDataFormatException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -25,9 +26,7 @@ public class MainController {
     @PostMapping("/echo")
     public ResponseEntity<?> echo(@RequestBody @Validated User user, Errors errors) {
         if (errors.hasErrors()) {
-            HashMap<String, String> result = new HashMap<>();
-            result.put("error", "Invalid data format");
-            return ResponseEntity.status(400).body(result);
+            throw new InvalidDataFormatException("Invalid data format");
         }
         return ResponseEntity.ok(user);
     }
